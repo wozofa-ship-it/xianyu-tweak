@@ -14,7 +14,7 @@ jobs:
         run: |
           clang -arch arm64 -isysroot $(xcrun --sdk iphoneos --show-sdk-path) \
             -mios-version-min=14.0 -fobjc-arc -dynamiclib \
-            -framework UIKit -framework Foundation \
+            -framework UIKit -framework Foundation -framework CoreGraphics \
             -o libXianyuCopyTweak.dylib Tweak/XianyuCopyTweak.m
           file libXianyuCopyTweak.dylib
       - name: Upload
