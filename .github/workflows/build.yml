@@ -1,0 +1,24 @@
+name: Build dylib
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build dylib
+        run: |
+          clang -arch arm64 -isysroot $(xcrun --sdk iphoneos --show-sdk-path) \
+            -mios-version-min=14.0 -fobjc-arc -dynamiclib \
+            -framework UIKit -framework Foundation \
+            -o libXianyuCopyTweak.dylib Tweak/XianyuCopyTweak.m
+          file libXianyuCopyTweak.dylib
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: XianyuCopyTweak-dylib
+          path: libXianyuCopyTweak.dylib
